@@ -1,0 +1,40 @@
+name: AutoFilter Bot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Start bot
+        env:
+          API_ID: ${{ secrets.API_ID }}
+          API_HASH: ${{ secrets.API_HASH }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          DATABASE_URI: ${{ secrets.DATABASE_URI }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+          ADMINS: ${{ secrets.ADMINS }}
+          DB_CHANNELS: ${{ secrets.DB_CHANNELS }}
+          LOG_CHANNEL: ${{ secrets.LOG_CHANNEL }}
+          FORCE_SUB: ${{ secrets.FORCE_SUB }}
+          BOT_USERNAME: ${{ secrets.BOT_USERNAME }}
+          START_PIC: ${{ secrets.START_PIC }}
+          PROTECT: ${{ secrets.PROTECT }}
+          AUTO_DELETE_SEC: ${{ secrets.AUTO_DELETE_SEC }}
+          RESULTS_PER_PAGE: ${{ secrets.RESULTS_PER_PAGE }}
+          USER_SESSION_STRING: ${{ secrets.USER_SESSION_STRING }}
+        run: python bot.py
